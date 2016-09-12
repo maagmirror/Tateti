@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>Ejercicio ToDoList</title>
+		<script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+		
+		<script type='text/javascript'>
+			
+			var matriz;
+			var jug1;
+			var jug2;
+			var jugActual;
+			
+			function jugar(){
+				jug1 = $('#txtJug1').val(); 
+				jug2 = $('#txtJug2').val(); 
+				$('#btnJugar').prop('disabled',true);
+				$('#tablero').show(); 
+				jugActual='1';
+				matriz=[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']];
+			}
+			
+			function marcar(but){
+				but = $(but);
+
+				var col = but.closest('td').index();
+				var row = but.closest('tr').index();
+
+				if(jugActual=='1'){
+					but.val('X');
+					jugActual='2';
+					but.prop('disabled',true);
+				}
+				else{
+					but.val('O');
+					jugActual='1';
+					but.prop('disabled',true);					
+				}
+				matriz[col][row]=but.val();
+				if(ganador()){
+					if(jugActual=='1')
+						alert("Gano el jugador " + jug2);
+					else
+						alert("Gano el jugador " + jug1);
+					$('table :button').prop('disabled',true);
+				}
+				else
+				if(empate()){
+					alert("Empateee");
+					$('table :button').prop('disabled',true);
+				}
+				
+				
+			}
+			
+			function ganador(){
+				for(k=0; k < matriz.length; k++){
+					if(matriz[0][k]==matriz[1][k] && matriz[1][k]==matriz[2][k] && matriz[2][k]!=' ')
+						return true;
+					if(matriz[k][0]==matriz[k][1] && matriz[k][1]==matriz[k][2] && matriz[k][2]!=' ')
+						return true;
+				}
+				if(matriz[0][0]==matriz[1][1] && matriz[1][1]==matriz[2][2] && matriz[2][2]!=' ')
+					return true;
+				if(matriz[0][2]==matriz[1][1] && matriz[1][1]==matriz[2][0] && matriz[2][0]!=' ')
+					return true;
+					
+				
+				return false;
+			}
+			
+			function empate(){
+				for(k=0; k < matriz.length; k++)
+					for(i=0; i < matriz.length; i++)
+						if(matriz[i][k]==' ')
+							return false;
+				return true;
+			}
+			
+		</script>
+		
+		<style>
+			#tablero input{
+				height:100px;
+				width:100px;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>TaTeTi!</h2>
+		<div id='comienzoJuego'>
+			<input id='txtJug1' type='text' placeholder='Ingrese jugador 1'/>
+			<input id='txtJug2' type='text' placeholder='Ingrese jugador 2'/>
+			<input id='btnJugar' type='button' value='Jugar!' onclick='jugar()'/>
+		</div>
+		<div id='tablero' style='display:none'>
+			<table>
+				<tr>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+					<td>
+						<input type='button' value=' ' onclick='marcar(this)'/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p id='mensaje'></p>
+	</body>
+</html>
+				
